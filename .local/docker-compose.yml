@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  minio:
+    image: minio/minio:latest
+    command: server --console-address ":9001" /data/
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: hanna13
+      MINIO_ROOT_PASSWORD: minio1313
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 hanna13 minio1313;
+      /usr/bin/mc mb myminio/userprofile;
+      /usr/bin/mc policy set public myminio/userprofile;
+      exit 0;
+      "
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "hairdressing_salon_db"
+    volumes:
+      - ./log:/var/lib/postgres
+  app:
+    build: ../
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_HOST=db
+      - SPRING_DATASOURCE_PORT=5432
+      - SPRING_PROFILES_ACTIVE=jdbc
+    volumes:
+      - /java/build/libs:/app.jar
+    depends_on:
+      - db
+
+  smtp-server:
+    container_name: mailhog
+    image: mailhog/mailhog
+    restart: on-failure
+    ports:
+      - "2525:1025"
+      - "8025:8025"

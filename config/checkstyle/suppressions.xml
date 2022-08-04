@@ -1,0 +1,18 @@
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <suppress files="[\\/]generated[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]test[\\/]" checks="MagicNumber"/>
+    <suppress files="[\\/]test[\\/]" checks="FileLength"/>
+    <suppress files="[\\/]test[\\/]" checks="VisibilityModifier"/>
+    <suppress files="HairdressingSalonApplication.java" checks="HideUtilityClassConstructor"/>
+    <suppress files="JdbcHairdressingSalonRepository.java" checks="VisibilityModifier"/>
+    <suppress files="JdbcOrderRepository.java" checks="VisibilityModifier"/>
+    <suppress files="JdbcScheduleRepository.java" checks="VisibilityModifier"/>
+    <suppress files="RoleRepositoryImpl.java" checks="VisibilityModifier"/>
+    <suppress files="JdbcTimeSlotRepository.java" checks="VisibilityModifier"/>
+    <suppress files="JdbcUserRepository.java" checks="VisibilityModifier"/>
+    <suppress files="MailService.java" checks="RegexpSingleline"/>
+</suppressions>
